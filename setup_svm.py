@@ -50,4 +50,4 @@ X_label, y_label = [], []
 X, y = df[X_label], df[y_label]
           
 # fit the model
-fit_logit(X, y, X_label, y_label)
+fit_svm(X, y, X_label, y_label)
