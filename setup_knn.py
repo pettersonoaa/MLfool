@@ -1,10 +1,10 @@
 import numpy as np, pandas as pd, matplotlib.pyplot as plt
 
-def fit_knn (X, y, X_label, y_label, max_k=10, report=True):
+def fit_knn (X, y, X_label, y_label, max_k=10, report=True, test_size=0.2, random_state=31):
   
   # train and test split
   from sklearn.model_selection import train_test_split
-  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=31)
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
 
   # load model and parms
   from sklearn.neighbors import KNeighborsClassifier
