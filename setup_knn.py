@@ -9,15 +9,15 @@ def fit_knn (X, y, X_label, y_label, max_k=10, report=True):
   # load model and parms
   from sklearn.neighbors import KNeighborsClassifier
   neighbors = np.arange(1, max_k)
-  train_acc = test_acc = knn = np.empty(len(neighbors))
-  max_score = max_score_index = 0
+  train_acc = test_acc = model = np.empty(len(neighbors))
+  max_score_index = 0
 
   # get best k
   for i, k in enumerate(neighbors):
-    knn[i] = KNeighborsClassifier(n_neighbors=k).fit(X_train, y_train)
-    train_acc[i], test_acc[i] = knn.score(X_train, y_train), knn.score(X_test, y_test)
-    if max_score < test_acc[i]:
-      max_score, max_score_index = test_acc[i], i
+    model[i] = KNeighborsClassifier(n_neighbors=k).fit(X_train, y_train)
+    train_acc[i], test_acc[i] = model.score(X_train, y_train), model.score(X_test, y_test)
+    if test_acc[max_score_index] < test_acc[i]:
+      max_score_index = i
 
   # show report and plots
   if report:
@@ -26,11 +26,11 @@ def fit_knn (X, y, X_label, y_label, max_k=10, report=True):
     plt.legend()
     plt.show()
 
-    y_pred = knn[max_score_index].predict(X_test)
-    y_prob = knn[max_score_index].predict_proba(X_test)[:, 1]
+    y_pred = model[max_score_index].predict(X_test)
+    y_prob = model[max_score_index].predict_proba(X_test)[:, 1]
 
     from sklearn.metrics import confusion_matrix, classification_report, roc_curve, roc_auc_score
-    print(confusion_matrix(t_test, y_pred))
+    print(confusion_matrix(y_test, y_pred))
     print(classification_report(y_test, y_pred)
 
     fpr, tpr, threshholds = roc_curve(y_test, y_prob)
@@ -39,7 +39,7 @@ def fit_knn (X, y, X_label, y_label, max_k=10, report=True):
     plt.plot(fpr, tpr, label='AUC: '+str(auc))
     plt.show()
   
-  return knn[max_score_index]
+  return model[max_score_index]
 
 #load dataset
 df = pd.read_csv('xxx.csv')
