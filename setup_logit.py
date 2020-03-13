@@ -1,10 +1,10 @@
 import numpy as np, pandas as pd, matplotlib.pyplot as plt
 
-def fit_logit (X, y, X_label, y_label, report=True):
+def fit_logit (X, y, X_label, y_label, report=True, test_size=0.2, random_state=31):
   
   # train and test split
   from sklearn.model_selection import train_test_split
-  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=31)
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=radom_state)
 
   # load model and parms
   from sklearn.linear_model import LogisticRegression
