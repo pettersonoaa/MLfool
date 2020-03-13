@@ -21,8 +21,8 @@ def fit_logit (X, y, X_label, y_label, report=True):
 
   # show report and plots
   if report:
-    plt.plot(neighbors, train_acc, label='Train')
-    plt.plot(neighbors, test_acc, label='Test')
+    plt.plot(parms, train_acc, label='Train')
+    plt.plot(parms, test_acc, label='Test')
     plt.legend()
     plt.show()
 
