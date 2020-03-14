@@ -2,7 +2,7 @@ import numpy as np, pandas as pd, matplotlib.pyplot as plt, warnings
 from sklearn.exceptions import DataConversionWarning
 warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 
-def xval_model (X, y, report=True, seed=31, C=1, n_estimators=100, max_depth=5, 
+def cv_model (X, y, report=True, seed=31, C=1, n_estimators=100, max_depth=5, 
                 gamma=2, n_neighbors=5, scoring='accuracy', n_splits=10):
     
     # load model and parms
@@ -10,14 +10,17 @@ def xval_model (X, y, report=True, seed=31, C=1, n_estimators=100, max_depth=5,
     from sklearn.linear_model import LogisticRegression
     models.append(('LR', LogisticRegression(C=C)))
     
-    from sklearn.ensemble import RandomForestClassifier
-    models.append(('RF', RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth)))
+    from sklearn.neighbors import KNeighborsClassifier
+    models.append(('KNN', KNeighborsClassifier(n_neighbors=n_neighbors)))
     
     from sklearn.svm import SVC
     models.append(('SVM', SVC(gamma=gamma, C=C)))
     
-    from sklearn.neighbors import KNeighborsClassifier
-    models.append(('KNN', KNeighborsClassifier(n_neighbors=n_neighbors)))
+    from sklearn.ensemble import RandomForestClassifier
+    models.append(('RF', RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth)))
+    
+    from sklearn.ensemble import AdaBoostClassifier
+    models.append(('AB', AdaBoostClassifier()))
     
     
     # model validation
@@ -49,6 +52,6 @@ X, y = data[[0, 1]], data[['index']]
 #X, y = df[X_label], df[y_label]
           
 # fit the model
-model = xval_model(X, y)
+model = cv_model(X, y)
 
 model[3][1].fit(X, y).predict(X)
